@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Redirecting...</title>
+</head>
+<body>
+
+<p>Loading...</p>
+
+<script>
+async function redirectFromSheet() {
+    try {
+        const sheetId = "1Q0SUF41isxGLzoeEad9Y7IWMvtZ37jcq1COG6EBIyck";
+        const gid = "0"; // first sheet tab
+
+        const url =
+        `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&gid=${gid}`;
+
+        const response = await fetch(url);
+        const text = await response.text();
+
+        const data = JSON.parse(
+            text.substring(47).slice(0,-2)
+        );
+
+        // A1 = first row, first column
+        const link = data.table.rows[0].c[0].v;
+
+        if (link && link.startsWith("http")) {
+            window.location.replace(link);
+        } else {
+            document.body.innerHTML =
+            "Spreadsheet doesn't contain a valid URL";
+        }
+
+    } catch(err) {
+        console.error(err);
+        document.body.innerHTML =
+        "Could not read spreadsheet";
+    }
+}
+
+redirectFromSheet();
+</script>
+
+</body>
+</html>
