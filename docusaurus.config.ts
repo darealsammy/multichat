@@ -4,14 +4,13 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Multichat',
-  tagline: 'Official Multichat Documentation',
+  tagline: 'Official Multichat Website',
   favicon: 'img/favicon.ico',
 
   future: {
     v4: true,
   },
 
-  // GitHub Pages
   url: 'https://darealsammy.github.io',
   baseUrl: '/multichat/',
 
@@ -57,7 +56,9 @@ const config: Config = {
     image: 'img/docusaurus-social-card.jpg',
 
     colorMode: {
-      respectPrefersColorScheme: true,
+      defaultMode: 'dark',
+      disableSwitch: true,
+      respectPrefersColorScheme: false,
     },
 
     navbar: {
@@ -73,7 +74,11 @@ const config: Config = {
           position: 'left',
           label: 'Documentation',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
+        {
+          to: '/blog',
+          label: 'Blog',
+          position: 'left',
+        },
         {
           href: 'https://github.com/darealsammy/multichat',
           label: 'GitHub',
@@ -104,7 +109,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Multichat. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Multichat.`,
     },
 
     prism: {
