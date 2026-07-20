@@ -1,0 +1,170 @@
+.wrap {
+  position: fixed;
+  top: 0.75rem;
+  right: 1.1rem;
+  z-index: 2000;
+  font-family: var(--olb-mono, monospace);
+}
+
+.signInButton {
+  background: #c9ff5b;
+  color: #0a0b0d;
+  border: none;
+  border-radius: 8px;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.signInButton:hover {
+  filter: brightness(1.08);
+}
+
+.userPill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(20, 22, 26, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem 0.3rem 0.3rem;
+  cursor: pointer;
+  color: #e6edf3;
+  font-size: 0.85rem;
+}
+
+.avatar {
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.avatarFallback {
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: #000;
+  flex-shrink: 0;
+}
+
+.menu {
+  position: absolute;
+  top: 2.7rem;
+  right: 0;
+  background: #0a0b0d;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 10px;
+  padding: 0.4rem;
+  min-width: 8rem;
+}
+
+.menuItem {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: #e6edf3;
+  padding: 0.5rem 0.6rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border-radius: 6px;
+  font-family: inherit;
+}
+
+.menuItem:hover {
+  background: rgba(148, 163, 184, 0.1);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: #0a0b0d;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: min(360px, 90vw);
+  color: #e6edf3;
+}
+
+.modalTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+
+.modalHint {
+  font-size: 0.8rem;
+  color: #7d8590;
+  margin: 0 0 1rem;
+}
+
+.input {
+  width: 100%;
+  background: #14161a;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 8px;
+  padding: 0.6rem 0.7rem;
+  color: #e6edf3;
+  font-family: inherit;
+  font-size: 0.85rem;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #c9ff5b;
+}
+
+.error {
+  color: #ff6b6b;
+  font-size: 0.8rem;
+  margin-top: 0.6rem;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.1rem;
+}
+
+.cancelButton {
+  background: transparent;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  color: #e6edf3;
+  border-radius: 8px;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.85rem;
+}
+
+.submitButton {
+  background: #c9ff5b;
+  color: #0a0b0d;
+  border: none;
+  border-radius: 8px;
+  padding: 0.45rem 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.85rem;
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
