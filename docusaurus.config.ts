@@ -19,6 +19,10 @@ const config: Config = {
 
   onBrokenLinks: 'throw',
 
+  customFields: {
+    leaderboardApiUrl: 'https://multichatapi.onrender.com',
+  },
+
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
@@ -77,6 +81,11 @@ const config: Config = {
         {
           to: '/blog',
           label: 'Blog',
+          position: 'left',
+        },
+        {
+          to: '/leaderboard',
+          label: 'Leaderboard',
           position: 'left',
         },
         {

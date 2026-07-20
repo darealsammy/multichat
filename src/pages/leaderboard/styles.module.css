@@ -1,0 +1,114 @@
+.heroBanner {
+  padding: 3rem 0 1.5rem;
+  text-align: center;
+}
+
+.wrapper {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 1rem 4rem;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.tab {
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  background: transparent;
+  color: var(--ifm-font-color-base);
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.tab:hover {
+  border-color: var(--ifm-color-primary);
+}
+
+.tabActive {
+  background: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+.panel {
+  border-radius: 16px;
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  background: rgba(15, 23, 42, 0.5);
+  overflow: hidden;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.rank {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ifm-color-primary-lighter);
+  text-align: center;
+}
+
+.rankMedal {
+  font-size: 1.3rem;
+}
+
+.name {
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.value {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #facc15;
+  white-space: nowrap;
+}
+
+.meta {
+  text-align: center;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.85rem;
+  margin-top: 1rem;
+}
+
+.state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.refreshBtn {
+  display: block;
+  margin: 1.5rem auto 0;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  background: transparent;
+  color: var(--ifm-font-color-base);
+  padding: 0.4rem 1.1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.refreshBtn:hover {
+  border-color: var(--ifm-color-primary);
+}
