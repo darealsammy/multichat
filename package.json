@@ -1,49 +1,44 @@
-{
-  "name": "temp",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "docusaurus": "docusaurus",
-    "start": "docusaurus start",
-    "build": "docusaurus build",
-    "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy",
-    "clear": "docusaurus clear",
-    "serve": "docusaurus serve",
-    "write-translations": "docusaurus write-translations",
-    "write-heading-ids": "docusaurus write-heading-ids",
-    "typecheck": "tsc"
-  },
-  "dependencies": {
-    "@docusaurus/core": "3.10.2",
-    "@docusaurus/faster": "3.10.2",
-    "@docusaurus/preset-classic": "3.10.2",
-    "@mdx-js/react": "^3.0.0",
-    "clsx": "^2.0.0",
-    "prism-react-renderer": "^2.3.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-  },
-  "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.10.2",
-    "@docusaurus/tsconfig": "3.10.2",
-    "@docusaurus/types": "3.10.2",
-    "@types/react": "^19.0.0",
-    "typescript": "~6.0.2"
-  },
-  "browserslist": {
-    "production": [
-      ">0.5%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 3 chrome version",
-      "last 3 firefox version",
-      "last 5 safari version"
-    ]
-  },
-  "engines": {
-    "node": ">=20.0"
-  }
+import type {ReactNode} from 'react';
+import clsx from 'clsx';
+import Link from '@docusaurus/Link';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import Layout from '@theme/Layout';
+import HomepageFeatures from '@site/src/components/HomepageFeatures';
+import Heading from '@theme/Heading';
+
+import styles from './index.module.css';
+
+function HomepageHeader() {
+  const {siteConfig} = useDocusaurusContext();
+  return (
+    <header className={clsx('hero hero--primary', styles.heroBanner)}>
+      <div className="container">
+        <Heading as="h1" className="hero__title">
+          {siteConfig.title}
+        </Heading>
+        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <div className={styles.buttons}>
+          <Link
+            className="button button--secondary button--lg"
+            to="/docs/intro">
+            Docusaurus Tutorial - 5min ⏱️
+          </Link>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+export default function Home(): ReactNode {
+  const {siteConfig} = useDocusaurusContext();
+  return (
+    <Layout
+      title={`Hello from ${siteConfig.title}`}
+      description="Description will go into a meta tag in <head />">
+      <HomepageHeader />
+      <main>
+        <HomepageFeatures />
+      </main>
+    </Layout>
+  );
 }
