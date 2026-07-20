@@ -1,0 +1,92 @@
+.page {
+  width: 100%;
+  padding: 1.5rem clamp(1rem, 4vw, 3rem) 4rem;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  margin-bottom: 1.5rem;
+}
+
+.tab {
+  border: none;
+  background: transparent;
+  color: var(--ifm-color-emphasis-700);
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.tab:hover {
+  color: var(--ifm-font-color-base);
+}
+
+.tabActive {
+  color: #2dd4bf;
+  border-bottom-color: #2dd4bf;
+  font-weight: 600;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  text-align: left;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ifm-color-emphasis-600);
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.table td {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.table tr:hover td {
+  background: rgba(45, 212, 191, 0.05);
+}
+
+.rankHead,
+.rank {
+  width: 4rem;
+}
+
+.rank {
+  font-variant-numeric: tabular-nums;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.name {
+  font-weight: 500;
+}
+
+.valueHead,
+.value {
+  text-align: right;
+}
+
+.value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.unit {
+  font-weight: 400;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.85em;
+}
+
+.state {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--ifm-color-emphasis-600);
+}
