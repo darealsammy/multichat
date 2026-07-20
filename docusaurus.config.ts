@@ -1,131 +1,153 @@
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
-import type * as Preset from '@docusaurus/preset-classic';
+.page {
+  width: 100%;
+  padding: 1.5rem clamp(1rem, 4vw, 3rem) 4rem;
+}
 
-const config: Config = {
-  title: 'Multichat',
-  tagline: 'Official Multichat Website',
-  favicon: 'img/favicon.ico',
+.tabs {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  margin-bottom: 1.5rem;
+}
 
-  future: {
-    v4: true,
-  },
+.tab {
+  border: none;
+  background: transparent;
+  color: var(--ifm-color-emphasis-700);
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  font-family: var(--olb-mono);
+}
 
-  url: 'https://darealsammy.github.io',
-  baseUrl: '/multichat/',
+.tab:hover {
+  color: var(--ifm-font-color-base);
+}
 
-  organizationName: 'darealsammy',
-  projectName: 'multichat',
+.tabActive {
+  color: #c9ff5b;
+  border-bottom-color: #c9ff5b;
+  font-weight: 600;
+}
 
-  onBrokenLinks: 'throw',
+.board {
+  background: #0a0b0d;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 10px;
+  overflow: hidden;
+  font-family: var(--olb-mono);
+}
 
-  customFields: {
-    leaderboardApiUrl: 'https://multichatapi.onrender.com',
-  },
+.boardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.25rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+}
 
-  i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
-  },
+.boardHeaderLabel {
+  color: #7d8590;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
 
-  presets: [
-    [
-      'classic',
-      {
-        docs: {
-          sidebarPath: './sidebars.ts',
-          editUrl:
-            'https://github.com/darealsammy/multichat/tree/main/',
-        },
-        blog: {
-          showReadingTime: true,
-          feedOptions: {
-            type: ['rss', 'atom'],
-            xslt: true,
-          },
-          editUrl:
-            'https://github.com/darealsammy/multichat/tree/main/',
-          onInlineTags: 'warn',
-          onInlineAuthors: 'warn',
-          onUntruncatedBlogPosts: 'warn',
-        },
-        theme: {
-          customCss: './src/css/custom.css',
-        },
-      } satisfies Preset.Options,
-    ],
-  ],
+.row {
+  display: flex;
+  align-items: center;
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+}
 
-  themeConfig: {
-    image: 'img/docusaurus-social-card.jpg',
+.row:last-child {
+  border-bottom: none;
+}
 
-    colorMode: {
-      defaultMode: 'dark',
-      disableSwitch: true,
-      respectPrefersColorScheme: false,
-    },
+.rank {
+  width: 3rem;
+  flex-shrink: 0;
+  color: #7d8590;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.95rem;
+}
 
-    navbar: {
-      title: 'Multichat',
-      logo: {
-        alt: 'Multichat Logo',
-        src: 'img/logo.svg',
-      },
-      items: [
-        {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
-          position: 'left',
-          label: 'Documentation',
-        },
-        {
-          to: '/blog',
-          label: 'Blog',
-          position: 'left',
-        },
-        {
-          to: '/leaderboard',
-          label: 'Leaderboard',
-          position: 'left',
-        },
-        {
-          href: 'https://github.com/darealsammy/multichat',
-          label: 'GitHub',
-          position: 'right',
-        },
-      ],
-    },
+.rankTop .rank {
+  color: #c9ff5b;
+}
 
-    footer: {
-      style: 'dark',
-      links: [
-        {
-          title: 'Documentation',
-          items: [
-            {
-              label: 'Getting Started',
-              to: '/docs/intro',
-            },
-          ],
-        },
-        {
-          title: 'GitHub',
-          items: [
-            {
-              label: 'Repository',
-              href: 'https://github.com/darealsammy/multichat',
-            },
-          ],
-        },
-      ],
-      copyright: `Copyright © ${new Date().getFullYear()} Multichat.`,
-    },
+.rankGold .rank {
+  color: #ffd54a;
+}
 
-    prism: {
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
-    },
-  } satisfies Preset.ThemeConfig,
-};
+.rankSilver .rank {
+  color: #c7ccd1;
+}
 
-export default config;
+.rankBronze .rank {
+  color: #cd7f32;
+}
+
+.rankYou .rank {
+  color: #3ddc84;
+}
+
+.avatarImg {
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.avatarFallback {
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  background: #000;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.name {
+  flex: 1;
+  color: #e6edf3;
+  font-size: 0.95rem;
+}
+
+.companyTag {
+  color: #7d8590;
+  font-size: 0.8em;
+}
+
+.rankTop .name {
+  color: #c9ff5b;
+}
+
+.value {
+  color: #e6edf3;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.95rem;
+  text-align: right;
+}
+
+.rankTop .value {
+  color: #c9ff5b;
+}
+
+.unit {
+  font-weight: 400;
+  color: #7d8590;
+  font-size: 0.8em;
+  margin-left: 0.35rem;
+}
+
+.state {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--ifm-color-emphasis-600);
+  font-family: var(--olb-mono);
+}

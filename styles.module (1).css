@@ -1,0 +1,17 @@
+{
+  "name": "multichat-leaderboard-relay",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Small relay deployed on Render. Receives leaderboard + API-key pushes from the Discord bot (Bearer PUSH_SECRET) and serves them to the public website. Also handles website 'sign in with API key' auth.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
