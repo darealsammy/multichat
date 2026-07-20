@@ -118,8 +118,7 @@ export default function AuthWidget(): ReactNode {
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <p className={styles.modalTitle}>Sign in</p>
             <p className={styles.modalHint}>
-              Use the API key from your bot profile (Discord → your DM with the bot →
-              View API Keys).
+              Open Discord and run the <code>/api key</code> command to get your key.
             </p>
             <input
               className={styles.input}
