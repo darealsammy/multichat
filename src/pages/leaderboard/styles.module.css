@@ -123,6 +123,12 @@
   font-size: 0.8em;
 }
 
+.userTag {
+  color: #58a6ff;
+  font-size: 0.8em;
+  font-weight: 600;
+}
+
 .rankTop .name {
   color: #c9ff5b;
 }
