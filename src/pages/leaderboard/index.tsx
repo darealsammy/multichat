@@ -3,6 +3,7 @@ import type {ReactNode} from 'react';
 import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {AUTH_CHANGED_EVENT} from '../../theme/AuthWidget';
 
 import styles from './styles.module.css';
 
@@ -55,12 +56,17 @@ export default function LeaderboardPage(): ReactNode {
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
   useEffect(() => {
-    try {
-      const raw = window.localStorage.getItem('multichat_session_user');
-      if (raw) setCurrentUserId(JSON.parse(raw).user_id ?? null);
-    } catch {
-      setCurrentUserId(null);
-    }
+    const syncUser = () => {
+      try {
+        const raw = window.localStorage.getItem('multichat_session_user');
+        setCurrentUserId(raw ? JSON.parse(raw).user_id ?? null : null);
+      } catch {
+        setCurrentUserId(null);
+      }
+    };
+    syncUser();
+    window.addEventListener(AUTH_CHANGED_EVENT, syncUser);
+    return () => window.removeEventListener(AUTH_CHANGED_EVENT, syncUser);
   }, []);
 
   const load = useCallback(

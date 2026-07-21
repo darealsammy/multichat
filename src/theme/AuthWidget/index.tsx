@@ -11,6 +11,7 @@ type SessionUser = {
 
 const STORAGE_KEY = 'multichat_session_token';
 const USER_STORAGE_KEY = 'multichat_session_user';
+export const AUTH_CHANGED_EVENT = 'multichat-auth-changed';
 
 export default function AuthWidget(): ReactNode {
   const {siteConfig} = useDocusaurusContext();
@@ -60,6 +61,7 @@ export default function AuthWidget(): ReactNode {
       }
       window.localStorage.setItem(STORAGE_KEY, data.token);
       window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(data.user));
+      window.dispatchEvent(new Event(AUTH_CHANGED_EVENT));
       setToken(data.token);
       setUser(data.user);
       setShowModal(false);
@@ -80,6 +82,7 @@ export default function AuthWidget(): ReactNode {
     }
     window.localStorage.removeItem(STORAGE_KEY);
     window.localStorage.removeItem(USER_STORAGE_KEY);
+    window.dispatchEvent(new Event(AUTH_CHANGED_EVENT));
     setToken(null);
     setUser(null);
     setShowMenu(false);

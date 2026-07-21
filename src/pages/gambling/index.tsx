@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import {AUTH_CHANGED_EVENT} from '../../theme/AuthWidget';
 
 import styles from './styles.module.css';
 
@@ -118,6 +119,9 @@ export default function GamblingPage(): ReactNode {
 
   useEffect(() => {
     setToken(window.localStorage.getItem(TOKEN_KEY));
+    const syncToken = () => setToken(window.localStorage.getItem(TOKEN_KEY));
+    window.addEventListener(AUTH_CHANGED_EVENT, syncToken);
+    return () => window.removeEventListener(AUTH_CHANGED_EVENT, syncToken);
   }, []);
 
   const loadConfig = useCallback(() => {
