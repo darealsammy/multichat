@@ -348,3 +348,153 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+/* --- Animations --- */
+
+@keyframes cellSpin {
+  0% { transform: translateY(0); opacity: 1; }
+  40% { transform: translateY(-6px); opacity: 0.4; }
+  70% { transform: translateY(4px); opacity: 0.7; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.cellSpinning {
+  animation: cellSpin 0.5s ease-in-out infinite;
+}
+
+@keyframes panelFlash {
+  0% { box-shadow: 0 0 0 rgba(59, 130, 246, 0); border-color: rgba(59, 130, 246, 0.18); }
+  30% { box-shadow: 0 0 22px rgba(59, 130, 246, 0.35); border-color: #3b82f6; }
+  100% { box-shadow: 0 0 0 rgba(59, 130, 246, 0); border-color: rgba(59, 130, 246, 0.18); }
+}
+
+.panelFlash {
+  animation: panelFlash 0.7s ease-out;
+}
+
+.sideRow {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+}
+
+.sideButton {
+  flex: 1;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  color: #7d8590;
+  border-radius: 6px;
+  padding: 0.5rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-family: var(--olb-mono);
+}
+
+.sideButtonActive {
+  border-color: #3b82f6;
+  color: #e6edf3;
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.coinStage {
+  display: flex;
+  justify-content: center;
+  margin: 0.75rem 0 1rem;
+  perspective: 600px;
+}
+
+.coin {
+  width: 84px;
+  height: 84px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1s cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+.coinFace {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.6rem;
+  backface-visibility: hidden;
+  background: radial-gradient(circle at 35% 30%, #fef3c7, #d97706);
+  color: #422006;
+  border: 2px solid #92400e;
+}
+
+.coinTails {
+  transform: rotateY(180deg);
+}
+
+.diceRow {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.85rem;
+}
+
+.diceNumberButton {
+  flex: 1;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  color: #7d8590;
+  border-radius: 6px;
+  padding: 0.5rem 0;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-family: var(--olb-mono);
+}
+
+.diceNumberButtonActive {
+  border-color: #3b82f6;
+  color: #e6edf3;
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.diceStage {
+  display: flex;
+  justify-content: center;
+  margin: 0.75rem 0 1rem;
+}
+
+.die {
+  font-size: 3.5rem;
+  line-height: 1;
+  color: #e6edf3;
+  transition: transform 0.15s ease-out;
+}
+
+@keyframes dieRoll {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.1); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+.dieRolling {
+  animation: dieRoll 0.6s linear infinite;
+}
+
+@keyframes tilePop {
+  0% { transform: scale(0.7); opacity: 0.4; }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.minesTilePop {
+  animation: tilePop 0.3s ease-out;
+}
+
+@keyframes gridShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+
+.minesGridShake {
+  animation: gridShake 0.4s ease-in-out;
+}
