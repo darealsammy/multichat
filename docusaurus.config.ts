@@ -69,7 +69,7 @@ const config: Config = {
       title: 'Multichat',
       logo: {
         alt: 'Multichat Logo',
-        src: 'img/logo.svg',
+        src: 'img/logo.png',
       },
       items: [
         {
