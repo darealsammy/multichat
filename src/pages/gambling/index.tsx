@@ -3,6 +3,7 @@ import type {ReactNode} from 'react';
 import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import styles from './styles.module.css';
 
@@ -61,6 +62,7 @@ function formatMoney(taxRate: number, taxAmount: number, payoutAfterTax: number,
 export default function GamblingPage(): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   const apiBase = (siteConfig.customFields?.gamblingApiUrl as string) || '';
+  const soundBaseUrl = useBaseUrl('/sound/');
 
   const [tab, setTab] = useState<Tab>('slots');
 
@@ -165,10 +167,9 @@ export default function GamblingPage(): ReactNode {
 
   const playSound = (sound: string) => {
     try {
-      const audio = new Audio(`/sound/${sound}.mp3`);
+      const audio = new Audio(`${soundBaseUrl}${sound}.mp3`);
       audio.play().catch(() => {});
     } catch {
-      // ignore playback errors (e.g. autoplay restrictions)
     }
   };
 
@@ -215,6 +216,7 @@ export default function GamblingPage(): ReactNode {
     setResultText(null);
     setResultKind(null);
     setWinningCells(new Set());
+    playSound('background');
 
     // Kick the reels into motion immediately (small random nudge), matching
     // rugplay's "spinStartOffsets" so the reel is already moving before the
@@ -245,6 +247,10 @@ export default function GamblingPage(): ReactNode {
 
       setReelStrips(built.map((b) => b.strip));
 
+      REEL_SPIN_DURATIONS.forEach((duration) => {
+        setTimeout(() => playSound('click'), duration);
+      });
+
       // Let the DOM pick up the new (longer) strips at the current bumped
       // position first, then animate to the target on the next frame so the
       // transition actually plays.
@@ -266,9 +272,11 @@ export default function GamblingPage(): ReactNode {
           setResultText(formatMoney(data.tax_rate, data.tax_amount, data.payout_after_tax, data.net));
         } else if (data.payout > 0) {
           setResultKind('lose');
+          playSound('lose');
           setResultText(`You got ${data.payout_after_tax.toLocaleString()} coins back. Net: ${data.net.toLocaleString()}`);
         } else {
           setResultKind('lose');
+          playSound('lose');
           setResultText(`No lines hit. Net: -${betNum.toLocaleString()}`);
         }
         setSpinning(false);
@@ -309,6 +317,7 @@ export default function GamblingPage(): ReactNode {
     setFlipping(true);
     setCoinResultText(null);
     setCoinResultKind(null);
+    playSound('flip');
     try {
       const res = await fetch(`${apiBase}/gambling/coinflip`, {
         method: 'POST',
@@ -329,6 +338,7 @@ export default function GamblingPage(): ReactNode {
           setCoinResultText(formatMoney(data.tax_rate, data.tax_amount, data.payout_after_tax, data.net));
         } else {
           setCoinResultKind('lose');
+          playSound('lose');
           setCoinResultText(`Landed on ${data.result}. Net: -${betNum.toLocaleString()}`);
         }
         setFlipping(false);
@@ -363,6 +373,7 @@ export default function GamblingPage(): ReactNode {
     setRolling(true);
     setDiceResultText(null);
     setDiceResultKind(null);
+    playSound('click');
     try {
       const res = await fetch(`${apiBase}/gambling/dice`, {
         method: 'POST',
@@ -381,12 +392,14 @@ export default function GamblingPage(): ReactNode {
           clearInterval(tickInterval);
           setDiceFace(data.result);
           setCoins(data.coins);
+          playSound('dice');
           if (data.won) {
             setDiceResultKind('win');
             flashWin();
             setDiceResultText(formatMoney(data.tax_rate, data.tax_amount, data.payout_after_tax, data.net));
           } else {
             setDiceResultKind('lose');
+            playSound('lose');
             setDiceResultText(`Rolled ${data.result}. Net: -${betNum.toLocaleString()}`);
           }
           setRolling(false);
@@ -470,12 +483,14 @@ export default function GamblingPage(): ReactNode {
           setTimeout(() => setMinesShake(false), 500);
           setMinesActive(false);
           setMinesResultKind('lose');
+          playSound('lose');
           setMinesResultText(`Hit a mine. Net: ${data.net.toLocaleString()}`);
         } else {
           setPoppingTile(tile);
           setTimeout(() => setPoppingTile(null), 300);
           setMinesRevealed(new Set(data.revealed));
           setMinesMultiplier(data.multiplier);
+          playSound('flip');
           if (data.all_safe_revealed) {
             setMinesActive(false);
             setMinesResultKind('win');
