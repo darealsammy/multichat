@@ -171,6 +171,10 @@
   background: rgba(59, 130, 246, 0.15);
 }
 
+.cellPlaceholder {
+  opacity: 0.35;
+}
+
 .resultText {
   text-align: center;
   color: #e6edf3;

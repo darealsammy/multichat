@@ -210,11 +210,19 @@ export default function GamblingPage(): ReactNode {
               </button>
 
               <div className={styles.reel}>
-                {(grid || [['❓', '❓', '❓'], ['❓', '❓', '❓'], ['❓', '❓', '❓']]).map((row, r) =>
+                {(grid || [
+                  [config.slot_symbols[0], config.slot_symbols[1], config.slot_symbols[2]],
+                  [config.slot_symbols[1], config.slot_symbols[2], config.slot_symbols[0]],
+                  [config.slot_symbols[2], config.slot_symbols[0], config.slot_symbols[1]],
+                ]).map((row, r) =>
                   row.map((sym, c) => (
                     <div
                       key={`${r}-${c}`}
-                      className={clsx(styles.cell, winningCells.has(`${r}-${c}`) && styles.cellWin)}>
+                      className={clsx(
+                        styles.cell,
+                        winningCells.has(`${r}-${c}`) && styles.cellWin,
+                        !grid && styles.cellPlaceholder,
+                      )}>
                       {sym}
                     </div>
                   )),
@@ -247,9 +255,7 @@ export default function GamblingPage(): ReactNode {
                 </div>
               </div>
               <div className={styles.taxNote}>
-                Winnings are taxed at <span className={styles.taxRate}>{(config.gambling_tax_rate * 100).toFixed(0)}%</span> (profit
-                portion only — your stake always comes back tax-free). Set from the bot's admin Tax Panel. The bigger your bet, the
-                more likely the house forces a loss outright — the house always wins on average.
+                Winnings are taxed at <span className={styles.taxRate}>{(config.gambling_tax_rate * 100).toFixed(0)}%</span> (profit portion only).
               </div>
             </div>
           </div>
