@@ -12,6 +12,7 @@ type Entry = {
   value: number;
   avatar_url?: string | null;
   is_company?: boolean;
+  tag?: string | null;
 };
 
 type BoardKind =
@@ -157,6 +158,7 @@ export default function LeaderboardPage(): ReactNode {
                   )}
                   <span className={styles.name}>
                     {entry.name}
+                    {entry.tag && <span className={styles.userTag}> [{entry.tag}]</span>}
                     {entry.is_company && <span className={styles.companyTag}> (company)</span>}
                   </span>
                   <span className={styles.value}>
