@@ -101,7 +101,7 @@ export default function LeaderboardPage(): ReactNode {
   const activeBoard = BOARDS.find((b) => b.key === board)!;
 
   return (
-    <Layout title="Leaderboard" description="Multichat leaderboards">
+    <Layout description="Multichat leaderboards">
       <div className={styles.page}>
         <div className={styles.tabs}>
           {BOARDS.map((b) => (
