@@ -11,32 +11,32 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
+    title: 'Connect channels',
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Multichat offers a way to connect your discord channel
+        to our network of servers.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: 'Economy',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Multichat is a advanced economy with many ways to earn money,
+        we aim to be a fun engaging discord economy bot.
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: 'Community',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Multichat is a active community that has been running
+        for over a year.
       </>
     ),
   },
