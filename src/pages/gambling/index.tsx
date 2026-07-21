@@ -619,7 +619,7 @@ export default function GamblingPage(): ReactNode {
                 </div>
                 <div className={styles.betHint}>
                   {selectedCasino
-                    ? `Bet is capped at what ${selectedCasino.name} can currently pay out (${maxBet.toLocaleString()} coins). Bigger bets lower your odds.`
+                    ? `Bet is capped at what ${selectedCasino.name} can currently pay out (${maxBet.toLocaleString()} coins).`
                     : 'Select a casino above, you may be limited on what you earn based on what casino you pick.'}
                 </div>
 
