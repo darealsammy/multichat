@@ -27,8 +27,8 @@
 }
 
 .tabActive {
-  color: #c9ff5b;
-  border-bottom-color: #c9ff5b;
+  color: #3b82f6;
+  border-bottom-color: #3b82f6;
   font-weight: 600;
 }
 
@@ -75,7 +75,7 @@
 }
 
 .rankTop .rank {
-  color: #c9ff5b;
+  color: #3b82f6;
 }
 
 .rankGold .rank {
@@ -91,7 +91,11 @@
 }
 
 .rankYou .rank {
-  color: #3ddc84;
+  color: #3b82f6;
+}
+
+.rankYou {
+  background: rgba(59, 130, 246, 0.08);
 }
 
 .avatarImg {
@@ -130,7 +134,7 @@
 }
 
 .rankTop .name {
-  color: #c9ff5b;
+  color: #3b82f6;
 }
 
 .value {
@@ -141,7 +145,7 @@
 }
 
 .rankTop .value {
-  color: #c9ff5b;
+  color: #3b82f6;
 }
 
 .unit {

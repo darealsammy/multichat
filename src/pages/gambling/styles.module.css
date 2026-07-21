@@ -1,0 +1,236 @@
+.page {
+  width: 100%;
+  padding: 1.5rem clamp(1rem, 4vw, 3rem) 4rem;
+  font-family: var(--olb-mono);
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.85rem;
+}
+
+.title {
+  color: #3b82f6;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.chips {
+  color: #e6edf3;
+  font-size: 0.95rem;
+}
+
+.chipsValue {
+  color: #3b82f6;
+  font-weight: 600;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+  gap: 1.25rem;
+}
+
+@media (max-width: 860px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panel {
+  background: #0a0b0d;
+  border: 1px solid rgba(59, 130, 246, 0.18);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+.panelTitle {
+  color: #7d8590;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+}
+
+.casinoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.casinoCard {
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 8px;
+  padding: 0.65rem 0.75rem;
+  text-align: left;
+  cursor: pointer;
+  color: #e6edf3;
+  font-family: var(--olb-mono);
+}
+
+.casinoCard:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.casinoCardActive {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.casinoCardDisabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.casinoName {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.casinoBalance {
+  font-size: 0.75rem;
+  color: #7d8590;
+}
+
+.betRow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.9rem;
+}
+
+.betInput {
+  flex: 1;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  color: #e6edf3;
+  border-radius: 6px;
+  padding: 0.55rem 0.7rem;
+  font-family: var(--olb-mono);
+  font-size: 0.95rem;
+}
+
+.betInput:disabled {
+  opacity: 0.5;
+}
+
+.betHint {
+  font-size: 0.75rem;
+  color: #7d8590;
+  margin-bottom: 1rem;
+}
+
+.spinButton {
+  width: 100%;
+  background: #3b82f6;
+  color: #0a0b0d;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-family: var(--olb-mono);
+}
+
+.spinButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.reel {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 8px;
+}
+
+.cellWin {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.15);
+}
+
+.resultText {
+  text-align: center;
+  color: #e6edf3;
+  font-size: 0.95rem;
+  min-height: 1.4rem;
+}
+
+.win {
+  color: #3b82f6;
+  font-weight: 700;
+}
+
+.lose {
+  color: #7d8590;
+}
+
+.errorText {
+  color: #f87171;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.payoutTable {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: #e6edf3;
+}
+
+.payoutRow {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+  padding-bottom: 0.35rem;
+}
+
+.taxNote {
+  margin-top: 1rem;
+  font-size: 0.78rem;
+  color: #7d8590;
+  line-height: 1.5;
+}
+
+.taxRate {
+  color: #3b82f6;
+  font-weight: 600;
+}
+
+.state {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--ifm-color-emphasis-600);
+  font-family: var(--olb-mono);
+}
+
+.signInNote {
+  color: #7d8590;
+  font-size: 0.85rem;
+  margin-top: 0.75rem;
+  text-align: center;
+}

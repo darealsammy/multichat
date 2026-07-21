@@ -21,6 +21,9 @@ const config: Config = {
 
   customFields: {
     leaderboardApiUrl: 'https://multichatapi.onrender.com',
+    // Gambling tab talks to the same relay (server-main) - it now also
+    // serves /gambling/* routes alongside the existing /leaderboard/* ones.
+    gamblingApiUrl: 'https://multichatapi.onrender.com',
   },
 
   i18n: {
@@ -86,6 +89,11 @@ const config: Config = {
         {
           to: '/leaderboard',
           label: 'Leaderboard',
+          position: 'left',
+        },
+        {
+          to: '/gambling',
+          label: '🎰 Gambling',
           position: 'left',
         },
         {
