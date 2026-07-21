@@ -163,10 +163,21 @@ export default function GamblingPage(): ReactNode {
     ? Math.max(0, Math.min(config?.slot_max_bet ?? 0, selectedCasino.balance))
     : 0;
 
+  const playSound = (sound: string) => {
+    try {
+      const audio = new Audio(`/sound/${sound}.mp3`);
+      audio.play().catch(() => {});
+    } catch {
+      // ignore playback errors (e.g. autoplay restrictions)
+    }
+  };
+
   const flashWin = () => {
     setSpinFlash(true);
     if (flashTimer.current) clearTimeout(flashTimer.current);
     flashTimer.current = setTimeout(() => setSpinFlash(false), 700);
+    playSound('cannon');
+    playSound('win');
   };
 
   const resetGameState = () => {
@@ -468,6 +479,7 @@ export default function GamblingPage(): ReactNode {
           if (data.all_safe_revealed) {
             setMinesActive(false);
             setMinesResultKind('win');
+            flashWin();
             setMinesResultText(`All safe tiles cleared at ${data.multiplier.toFixed(2)}x! Cash out to collect.`);
           }
         }
@@ -621,7 +633,6 @@ export default function GamblingPage(): ReactNode {
                           </div>
                         </div>
                       ))}
-                      <div className={styles.payline} />
                     </div>
                     {resultText && (
                       <div className={clsx(styles.resultText, resultKind === 'win' ? styles.win : styles.lose)}>{resultText}</div>
