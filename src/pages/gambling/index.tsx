@@ -25,6 +25,31 @@ const PAYOUT_CURVE = [2.8, 5.0, 8.5, 18.0, 45.0, 100.0];
 const MINES_GRID_SIZE = 25;
 const DICE_FACES = ['', '⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
 
+// --- Slot reel spin mechanics (ported from rugplay's Slots.svelte) ---
+const SYMBOL_HEIGHT = 64;
+const REEL_FILLER_COUNTS = [18, 24, 30]; // more filler = longer visual spin, staggered per column
+const REEL_SPIN_DURATIONS = [1400, 1750, 2100]; // ms, staggered so reels stop left-to-right
+
+function randomSymbol(pool: string[]): string {
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+// Builds one reel column's strip with the final [top, mid, bottom] triplet embedded
+// after a run of random filler symbols, plus a little trailing buffer.
+function buildColumnStrip(
+  finalTriplet: string[],
+  pool: string[],
+  fillerCount: number,
+): { strip: string[]; targetIndex: number } {
+  const strip: string[] = [];
+  for (let i = 0; i < fillerCount; i++) strip.push(randomSymbol(pool));
+  const targetIndex = strip.length;
+  strip.push(...finalTriplet);
+  for (let i = 0; i < 3; i++) strip.push(randomSymbol(pool));
+  return {strip, targetIndex};
+}
+
+
 const TOKEN_KEY = 'multichat_session_token';
 type Tab = 'slots' | 'coinflip' | 'dice' | 'mines';
 
@@ -48,8 +73,10 @@ export default function GamblingPage(): ReactNode {
   const [bet, setBet] = useState<string>('');
 
   // Slots
-  const [grid, setGrid] = useState<string[][] | null>(null);
   const [winningCells, setWinningCells] = useState<Set<string>>(new Set());
+  const [reelStrips, setReelStrips] = useState<string[][]>([[], [], []]);
+  const [reelPositions, setReelPositions] = useState<number[]>([0, 0, 0]);
+  const [reelTransition, setReelTransition] = useState(false);
   const [spinning, setSpinning] = useState(false);
   const [spinFlash, setSpinFlash] = useState(false);
   const [resultText, setResultText] = useState<string | null>(null);
@@ -112,6 +139,13 @@ export default function GamblingPage(): ReactNode {
     return () => clearInterval(interval);
   }, [loadConfig]);
 
+  useEffect(() => {
+    if (config && reelStrips[0].length === 0) {
+      const idleTriplet = [config.slot_symbols[0], config.slot_symbols[1], config.slot_symbols[2]];
+      setReelStrips([idleTriplet, idleTriplet, idleTriplet]);
+    }
+  }, [config]);
+
   const loadWallet = useCallback(() => {
     if (!apiBase || !token) return;
     fetch(`${apiBase}/gambling/wallet`, {headers: {Authorization: `Bearer ${token}`}})
@@ -169,6 +203,14 @@ export default function GamblingPage(): ReactNode {
     setSpinning(true);
     setResultText(null);
     setResultKind(null);
+    setWinningCells(new Set());
+
+    // Kick the reels into motion immediately (small random nudge), matching
+    // rugplay's "spinStartOffsets" so the reel is already moving before the
+    // network response comes back.
+    setReelTransition(false);
+    setReelPositions((prev) => prev.map((p) => p - (Math.random() * 30 + 10)));
+
     try {
       const res = await fetch(`${apiBase}/gambling/spin`, {
         method: 'POST',
@@ -179,28 +221,58 @@ export default function GamblingPage(): ReactNode {
       if (!res.ok || !data.success) {
         throw new Error(data.error || 'Spin failed');
       }
-      // small delay so the reel-spin animation gets to play before settling
-      await new Promise((r) => setTimeout(r, 500));
-      setGrid(data.grid);
-      setWinningCells(new Set((data.winning_cells || []).map((c: number[]) => `${c[0]}-${c[1]}`)));
-      setCoins(data.coins);
-      if (data.net > 0) {
-        setResultKind('win');
-        flashWin();
-        setResultText(formatMoney(data.tax_rate, data.tax_amount, data.payout_after_tax, data.net));
-      } else if (data.payout > 0) {
-        setResultKind('lose');
-        setResultText(`You got ${data.payout_after_tax.toLocaleString()} coins back. Net: ${data.net.toLocaleString()}`);
-      } else {
-        setResultKind('lose');
-        setResultText(`No lines hit. Net: -${betNum.toLocaleString()}`);
-      }
+
+      const newGrid: string[][] = data.grid;
+      const pool = config!.slot_symbols;
+
+      // Build one strip per column (0,1,2) with that column's final
+      // [top, mid, bottom] triplet embedded after a run of filler symbols.
+      const built = [0, 1, 2].map((col) => {
+        const triplet = [newGrid[0][col], newGrid[1][col], newGrid[2][col]];
+        return buildColumnStrip(triplet, pool, REEL_FILLER_COUNTS[col]);
+      });
+
+      setReelStrips(built.map((b) => b.strip));
+
+      // Let the DOM pick up the new (longer) strips at the current bumped
+      // position first, then animate to the target on the next frame so the
+      // transition actually plays.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setReelTransition(true);
+          setReelPositions(built.map((b) => -(b.targetIndex * SYMBOL_HEIGHT)));
+        });
+      });
+
+      const maxDuration = Math.max(...REEL_SPIN_DURATIONS);
+
+      setTimeout(() => {
+        setWinningCells(new Set((data.winning_cells || []).map((c: number[]) => `${c[0]}-${c[1]}`)));
+        setCoins(data.coins);
+        if (data.net > 0) {
+          setResultKind('win');
+          flashWin();
+          setResultText(formatMoney(data.tax_rate, data.tax_amount, data.payout_after_tax, data.net));
+        } else if (data.payout > 0) {
+          setResultKind('lose');
+          setResultText(`You got ${data.payout_after_tax.toLocaleString()} coins back. Net: ${data.net.toLocaleString()}`);
+        } else {
+          setResultKind('lose');
+          setResultText(`No lines hit. Net: -${betNum.toLocaleString()}`);
+        }
+        setSpinning(false);
+
+        // Snap (no transition) back to a small, equivalent position so the
+        // strip never grows unbounded across repeated spins.
+        setReelTransition(false);
+        setReelStrips(built.map((b, i) => [newGrid[0][i], newGrid[1][i], newGrid[2][i]]));
+        setReelPositions([0, 0, 0]);
+      }, maxDuration + 150);
     } catch (err: any) {
       setError(err.message || 'Spin failed');
-    } finally {
       setSpinning(false);
     }
-  }, [apiBase, token, selectedCasino, bet, maxBet]);
+  }, [apiBase, token, selectedCasino, bet, maxBet, config]);
 
   // --- Coinflip ---
   const handleFlip = useCallback(async () => {
@@ -526,25 +598,30 @@ export default function GamblingPage(): ReactNode {
                       {spinning ? 'Spinning…' : 'Spin'}
                     </button>
                     <div className={styles.reel}>
-                      {(grid || [
-                        [config.slot_symbols[0], config.slot_symbols[1], config.slot_symbols[2]],
-                        [config.slot_symbols[1], config.slot_symbols[2], config.slot_symbols[0]],
-                        [config.slot_symbols[2], config.slot_symbols[0], config.slot_symbols[1]],
-                      ]).map((row, r) =>
-                        row.map((sym, c) => (
+                      {[0, 1, 2].map((col) => (
+                        <div className={styles.reelColumn} key={col}>
                           <div
-                            key={`${r}-${c}`}
-                            className={clsx(
-                              styles.cell,
-                              spinning && styles.cellSpinning,
-                              winningCells.has(`${r}-${c}`) && styles.cellWin,
-                              !grid && styles.cellPlaceholder,
-                            )}
-                            style={{animationDelay: spinning ? `${(r * 3 + c) * 40}ms` : undefined}}>
-                            {sym}
+                            className={styles.reelStrip}
+                            style={{
+                              transform: `translateY(${reelPositions[col]}px)`,
+                              transition: reelTransition
+                                ? `transform ${REEL_SPIN_DURATIONS[col]}ms cubic-bezier(0.17, 0.67, 0.16, 0.99)`
+                                : 'none',
+                            }}>
+                            {reelStrips[col].map((sym, row) => {
+                              const cellKey = `${row}-${col}`;
+                              return (
+                                <div
+                                  key={row}
+                                  className={clsx(styles.cell, !spinning && winningCells.has(cellKey) && styles.cellWin)}>
+                                  {sym}
+                                </div>
+                              );
+                            })}
                           </div>
-                        )),
-                      )}
+                        </div>
+                      ))}
+                      <div className={styles.payline} />
                     </div>
                     {resultText && (
                       <div className={clsx(styles.resultText, resultKind === 'win' ? styles.win : styles.lose)}>{resultText}</div>
