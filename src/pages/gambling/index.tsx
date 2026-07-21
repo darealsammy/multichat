@@ -783,7 +783,7 @@ export default function GamblingPage(): ReactNode {
                         <span>Pick heads or tails</span>
                       </div>
                       <div className={styles.payoutRow}>
-                        <span>Correct call pays close to 2x, minus the house edge</span>
+                        <span>Correct call around 2x</span>
                       </div>
                     </div>
                   </>
@@ -796,7 +796,7 @@ export default function GamblingPage(): ReactNode {
                         <span>Call a number 1-6</span>
                       </div>
                       <div className={styles.payoutRow}>
-                        <span>Correct call pays close to 6x, minus the house edge</span>
+                        <span>Correct call pays around 6x.</span>
                       </div>
                     </div>
                   </>
