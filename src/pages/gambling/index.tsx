@@ -22,22 +22,18 @@ type GamblingConfig = {
   slot_max_bet: number;
 };
 
-// Payout curve matched positionally to whatever symbols the bot pushes.
 const PAYOUT_CURVE = [2.8, 5.0, 8.5, 18.0, 45.0, 100.0];
 const MINES_GRID_SIZE = 25;
 const DICE_FACES = ['', '⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
 
-// --- Slot reel spin mechanics (ported from rugplay's Slots.svelte) ---
 const SYMBOL_HEIGHT = 64;
-const REEL_FILLER_COUNTS = [18, 24, 30]; // more filler = longer visual spin, staggered per column
-const REEL_SPIN_DURATIONS = [1400, 1750, 2100]; // ms, staggered so reels stop left-to-right
+const REEL_FILLER_COUNTS = [18, 24, 30];
+const REEL_SPIN_DURATIONS = [1400, 1750, 2100];
 
 function randomSymbol(pool: string[]): string {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
-// Builds one reel column's strip with the final [top, mid, bottom] triplet embedded
-// after a run of random filler symbols, plus a little trailing buffer.
 function buildColumnStrip(
   finalTriplet: string[],
   pool: string[],
@@ -116,6 +112,7 @@ export default function GamblingPage(): ReactNode {
   const [minesError, setMinesError] = useState<string | null>(null);
 
   const flashTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const spinAudioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     setToken(window.localStorage.getItem(TOKEN_KEY));
@@ -169,11 +166,21 @@ export default function GamblingPage(): ReactNode {
     ? Math.max(0, Math.min(config?.slot_max_bet ?? 0, selectedCasino.balance))
     : 0;
 
-  const playSound = (sound: string) => {
+  const playSound = (sound: string): HTMLAudioElement | null => {
     try {
       const audio = new Audio(`${soundBaseUrl}${sound}.mp3`);
       audio.play().catch(() => {});
+      return audio;
     } catch {
+      return null;
+    }
+  };
+
+  const stopSpinSound = () => {
+    if (spinAudioRef.current) {
+      spinAudioRef.current.pause();
+      spinAudioRef.current.currentTime = 0;
+      spinAudioRef.current = null;
     }
   };
 
@@ -220,11 +227,9 @@ export default function GamblingPage(): ReactNode {
     setResultText(null);
     setResultKind(null);
     setWinningCells(new Set());
-    playSound('background');
+    stopSpinSound();
+    spinAudioRef.current = playSound('background');
 
-    // Kick the reels into motion immediately (small random nudge), matching
-    // rugplay's "spinStartOffsets" so the reel is already moving before the
-    // network response comes back.
     setReelTransition(false);
     setReelPositions((prev) => prev.map((p) => p - (Math.random() * 30 + 10)));
 
@@ -242,8 +247,6 @@ export default function GamblingPage(): ReactNode {
       const newGrid: string[][] = data.grid;
       const pool = config!.slot_symbols;
 
-      // Build one strip per column (0,1,2) with that column's final
-      // [top, mid, bottom] triplet embedded after a run of filler symbols.
       const built = [0, 1, 2].map((col) => {
         const triplet = [newGrid[0][col], newGrid[1][col], newGrid[2][col]];
         return buildColumnStrip(triplet, pool, REEL_FILLER_COUNTS[col]);
@@ -255,9 +258,6 @@ export default function GamblingPage(): ReactNode {
         setTimeout(() => playSound('click'), duration);
       });
 
-      // Let the DOM pick up the new (longer) strips at the current bumped
-      // position first, then animate to the target on the next frame so the
-      // transition actually plays.
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           setReelTransition(true);
@@ -284,9 +284,8 @@ export default function GamblingPage(): ReactNode {
           setResultText(`No lines hit. Net: -${betNum.toLocaleString()}`);
         }
         setSpinning(false);
+        stopSpinSound();
 
-        // Snap (no transition) back to a small, equivalent position so the
-        // strip never grows unbounded across repeated spins.
         setReelTransition(false);
         setReelStrips(built.map((b, i) => [newGrid[0][i], newGrid[1][i], newGrid[2][i]]));
         setReelPositions([0, 0, 0]);
@@ -294,6 +293,7 @@ export default function GamblingPage(): ReactNode {
     } catch (err: any) {
       setError(err.message || 'Spin failed');
       setSpinning(false);
+      stopSpinSound();
     }
   }, [apiBase, token, selectedCasino, bet, maxBet, config]);
 
@@ -331,7 +331,7 @@ export default function GamblingPage(): ReactNode {
       const data = await res.json();
       if (!res.ok || !data.success) throw new Error(data.error || 'Flip failed');
 
-      const extraHalfSpins = data.result === side ? 6 : 7; // land on the correct face
+      const extraHalfSpins = data.result === side ? 6 : 7;
       setCoinRotation((r) => r + extraHalfSpins * 180);
 
       setTimeout(() => {
