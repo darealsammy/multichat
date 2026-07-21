@@ -20,9 +20,6 @@ type GamblingConfig = {
   slot_max_bet: number;
 };
 
-// Same payout curve as the bot's slot machine (rarest symbol = biggest
-// multiplier), matched up positionally against whatever symbols the bot
-// currently has pushed, so the payout table shown here always tracks reality.
 const PAYOUT_CURVE = [2.8, 5.0, 8.5, 18.0, 45.0, 100.0];
 
 const TOKEN_KEY = 'multichat_session_token';
