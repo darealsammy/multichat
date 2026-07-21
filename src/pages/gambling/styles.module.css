@@ -174,31 +174,80 @@
 }
 
 .reel {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  --symbol-h: 64px;
+  display: flex;
   gap: 0.4rem;
   margin: 0.85rem 0;
   max-width: 260px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 10px;
+  padding: 8px;
+  position: relative;
+}
+
+.reelColumn {
+  flex: 1;
+  background: rgba(10, 11, 13, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  height: calc(var(--symbol-h) * 3);
+}
+
+.reelColumn::before,
+.reelColumn::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: var(--symbol-h);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.reelColumn::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(10, 11, 13, 0.85), transparent);
+}
+
+.reelColumn::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(10, 11, 13, 0.85), transparent);
+}
+
+.reelStrip {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
 }
 
 .cell {
-  aspect-ratio: 1;
+  height: var(--symbol-h);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.4rem;
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(148, 163, 184, 0.15);
-  border-radius: 6px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+  flex-shrink: 0;
 }
 
 .cellWin {
-  border-color: #3b82f6;
-  background: rgba(59, 130, 246, 0.15);
+  background: rgba(59, 130, 246, 0.18);
+  box-shadow: inset 0 0 0 1px #3b82f6;
 }
 
-.cellPlaceholder {
-  opacity: 0.35;
+.payline {
+  position: absolute;
+  top: 50%;
+  left: 8px;
+  right: 8px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+  transform: translateY(-1px);
+  pointer-events: none;
+  z-index: 10;
 }
 
 .resultText {
@@ -350,17 +399,6 @@
 }
 
 /* --- Animations --- */
-
-@keyframes cellSpin {
-  0% { transform: translateY(0); opacity: 1; }
-  40% { transform: translateY(-6px); opacity: 0.4; }
-  70% { transform: translateY(4px); opacity: 0.7; }
-  100% { transform: translateY(0); opacity: 1; }
-}
-
-.cellSpinning {
-  animation: cellSpin 0.5s ease-in-out infinite;
-}
 
 @keyframes panelFlash {
   0% { box-shadow: 0 0 0 rgba(59, 130, 246, 0); border-color: rgba(59, 130, 246, 0.18); }
