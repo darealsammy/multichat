@@ -159,6 +159,8 @@ export default function GamblingPage(): ReactNode {
 
   useEffect(() => {
     loadWallet();
+    const interval = setInterval(loadWallet, 4000);
+    return () => clearInterval(interval);
   }, [loadWallet]);
 
   const selectedCasino = config?.casinos.find((c) => c.id === casinoId) || null;
@@ -387,7 +389,6 @@ export default function GamblingPage(): ReactNode {
       const data = await res.json();
       if (!res.ok || !data.success) throw new Error(data.error || 'Roll failed');
 
-      // quick face cycle for a "rolling" feel, then land on the real result
       let ticks = 0;
       const tickInterval = setInterval(() => {
         setDiceFace(1 + Math.floor(Math.random() * 6));
