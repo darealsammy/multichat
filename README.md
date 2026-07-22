@@ -1,8 +1,8 @@
 # This is the offical multichat website
 
-what i used to make this
+i used
 [Docusaurus](https://docusaurus.io/) and
-[rugplay](https://github.com/outpoot/rugplay)
+[rugplay](https://github.com/outpoot/rugplay) to make this
 
 
 Feel free to submit pull requests to change the website
