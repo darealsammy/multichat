@@ -1,7 +1,7 @@
 # This is the offical multichat website
 
 what i used to make this
-[Docusaurus](https://docusaurus.io/)
+[Docusaurus](https://docusaurus.io/) and
 [rugplay](https://github.com/outpoot/rugplay)
 
 
