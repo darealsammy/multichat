@@ -620,6 +620,8 @@ export default function GamblingPage(): ReactNode {
                 </div>
                 <div className={styles.betHint}>
                   {selectedCasino
+                    ? `Bet between ${config.slot_min_bet} and ${maxBet.toLocaleString()} coins.`
+                    : 'Pick a casino to see bet limits.'}
                 </div>
 
                 {tab === 'slots' && (
