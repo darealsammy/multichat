@@ -159,7 +159,7 @@ export default function GamblingPage(): ReactNode {
 
   useEffect(() => {
     loadWallet();
-    const interval = setInterval(loadWallet, 4000);
+    const interval = setInterval(loadWallet, 500);
     return () => clearInterval(interval);
   }, [loadWallet]);
 
