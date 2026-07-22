@@ -1,5 +1,8 @@
 # This is the offical multichat website
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+what i used to make this
+[Docusaurus](https://docusaurus.io/)
+[rugplay](https://github.com/outpoot/rugplay)
+
 
 Feel free to submit pull requests to change the website
