@@ -15,7 +15,7 @@ function HomepageHeader() {
         </Heading>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
-          
+          <a
             className="button button--secondary button--lg"
             href="https://discord.com/oauth2/authorize?client_id=1395776459854840008"
             target="_blank"
